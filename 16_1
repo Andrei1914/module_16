@@ -13,6 +13,6 @@ async def welcome_admin():
 async def welcome_person(user_id: str):
     return f"Вы вошли как пользователь № {user_id}"
 
-@app.get('/info')
+@app.get('/user_info')
 async def info_person(user_name: str, age: int):
     return f"Информация о пользователе. Имя: {user_name}, Возраст: {age}"
