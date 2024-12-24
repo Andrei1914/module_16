@@ -1,0 +1,18 @@
+from fastapi import FastAPI as fa
+
+app = fa()
+@app.get('/')
+async def welcome():
+    return "Главная страница"
+
+@app.get('/user/admin')
+async def welcome_admin():
+    return "Вы вошли как администратор"
+
+@app.get('/user/{user_id}')
+async def welcome_person(user_id: str):
+    return f"Вы вошли как пользователь № {user_id}"
+
+@app.get('/info')
+async def info_person(user_name: str, age: int):
+    return f"Информация о пользователе. Имя: {user_name}, Возраст: {age}"
