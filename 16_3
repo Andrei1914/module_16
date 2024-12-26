@@ -1,0 +1,51 @@
+from fastapi import FastAPI, Path
+app = FastAPI()
+
+users = {'1': 'Имя: Example, возраст: 18'}
+
+
+@app.get('/user')
+async def all_message():
+    return users
+
+#создание пользователя
+@app.post('/user/user_create/{username}/{age}')
+async def create_message(username: str = Path(description="Enter username",
+                                            min_length=5, 
+                                            max_length=20, 
+                                            examples="UrbanUsers"
+                                            ), 
+                        age: int = Path(description="Enter age",
+                                        ge=18,
+                                        le=120, 
+                                        examples="24"
+                                        )):
+    current_undex = str(int(max(users, key=int)) + 1)
+    for id, age in enumerate(users):
+        if current_undex == id:
+            return "Users is registered"
+        else:
+            users[current_undex] = f"Имя: {username}, возраст: {age}"
+            return f"User {users[current_undex]} is registered"
+
+#обновление данных пользователя по user_id
+@app.put('/user/user_upadte/{user_id}/{username}/{age}')
+async def update_mesage(user_id: str,
+                        username: str = Path(description="Enter username",
+                                            min_length=5, 
+                                            max_length=20, 
+                                            examples="UrbanUsers"
+                                            ), 
+                        age: int = Path(description="Enter age",
+                                        ge=18,
+                                        le=120, 
+                                        examples="24"
+                                        )):
+    users[user_id] = f"Имя: {username}, возраст: {age}"
+    return f"User {user_id} updated!"
+
+#удаление пользователя по user_id
+@app.delete('/user/user_delete/{user_id}')
+async def delete_message(user_id: str):
+    users.pop[user_id]
+    return f"Message with {user_id} delete"
